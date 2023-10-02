@@ -2,15 +2,13 @@ import os
 import librosa
 import numpy as np
 
-from project.src.feature_extraction import extract_mfcc
+from feature_extraction import extract_mfcc
 
-def load_dataset():
-    # Get the current directory of the Python script
-    script_dir = os.path.dirname(os.path.abspath(__file__))
+SAMPLE_RATE = 16000
+SEGMENT_LENGTH = 1024
+HOP_LENGTH = 256
 
-    # Specify the relative path to the dataset directory
-    dataset_dir = os.path.join(script_dir, '..', 'data')
-
+def load_dataset(dataset_dir):
     # Initialize empty lists to store data and labels
     data = []
     labels = []
@@ -27,21 +25,33 @@ def load_dataset():
             wav_path = os.path.join(speaker_dir, wav_file)
             audio, sr = librosa.load(wav_path, sr=16000)  # Load audio without resampling
             
-            # Process the audio (e.g., extract MFCC features)
-            mfcc_features = extract_mfcc(audio)
-            
-            # Extract the digit and recording number from the filename
-            filename_parts = wav_file.split('_')
-            digit = int(filename_parts[0])
-            recording_number = int(filename_parts[2].split('.')[0])
-            
-            # Append the features and labels to the respective lists
-            data.append(mfcc_features)
-            labels.append((speaker_id, digit, recording_number))
+            # Calculate the number of segments to divide the audio into
+            num_segments = len(audio) // SEGMENT_LENGTH
 
-    #Convert data and labels to NumPy arrays
+            # Extract MFCC features for each segment
+            for i in range(num_segments):
+                start = i * HOP_LENGTH
+                end = start + SEGMENT_LENGTH
+                segment = audio[start:end]
+                
+                # Extract MFCC features for the segment
+                mfcc_features = extract_mfcc(segment, sr = sr, n_fft=SEGMENT_LENGTH, hop_length=HOP_LENGTH)
+                
+                 
+                # Extract the digit and recording number from the filename
+                filename_parts = wav_file.split('_')
+                digit = int(filename_parts[0])
+
+                # Append the features and labels to the respective lists
+                data.append(mfcc_features)
+                labels.append((speaker_id, digit))
+
+  
+    # Convert data to a NumPy array
     data = np.array(data)
+
+    # Convert labels to a NumPy array (if needed)
     labels = np.array(labels)
     return data, labels
 
-load_dataset()
+    
