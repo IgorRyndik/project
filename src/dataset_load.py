@@ -3,10 +3,11 @@ import librosa
 import numpy as np
 
 from feature_extraction import extract_mfcc
+from audio_preprocessing import resample_audio 
 
-SAMPLE_RATE = 16000
-SEGMENT_LENGTH = 1024
-HOP_LENGTH = 256
+SAMPLE_RATE = 8000
+SEGMENT_LENGTH = 256
+HOP_LENGTH = 128
 
 def load_dataset(dataset_dir):
     # Initialize empty lists to store data and labels
@@ -23,28 +24,21 @@ def load_dataset(dataset_dir):
         for wav_file in os.listdir(speaker_dir):
             # Load the WAV file using librosa
             wav_path = os.path.join(speaker_dir, wav_file)
-            audio, sr = librosa.load(wav_path, sr=16000)  # Load audio without resampling
+            audio, sr = librosa.load(wav_path, sr=SAMPLE_RATE)  # Load audio without resampling
             
-            # Calculate the number of segments to divide the audio into
-            num_segments = len(audio) // SEGMENT_LENGTH
+            # Resample audio to achieve the same duration for all recordings
+            audio = resample_audio(audio)
 
-            # Extract MFCC features for each segment
-            for i in range(num_segments):
-                start = i * HOP_LENGTH
-                end = start + SEGMENT_LENGTH
-                segment = audio[start:end]
-                
-                # Extract MFCC features for the segment
-                mfcc_features = extract_mfcc(segment, sr = sr, n_fft=SEGMENT_LENGTH, hop_length=HOP_LENGTH)
-                
-                 
-                # Extract the digit and recording number from the filename
-                filename_parts = wav_file.split('_')
-                digit = int(filename_parts[0])
+            # Extract MFCC features for the segment
+            mfcc_features = extract_mfcc(audio, sr = sr, n_fft=SEGMENT_LENGTH, hop_length=HOP_LENGTH)
+                                 
+            # Extract the digit and recording number from the filename
+            filename_parts = wav_file.split('_')
+            digit = int(filename_parts[0])
 
-                # Append the features and labels to the respective lists
-                data.append(mfcc_features)
-                labels.append((speaker_id, digit))
+            # Append the features and labels to the respective lists
+            data.append(mfcc_features)
+            labels.append((speaker_id, digit))
 
   
     # Convert data to a NumPy array

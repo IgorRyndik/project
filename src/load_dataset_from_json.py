@@ -19,5 +19,7 @@ def load_dataset_from_json(json_filename):
     data = np.array(dataset_dict["data"])
     labels = np.array(dataset_dict["labels"])
 
+    labels = labels[:, 0].astype(np.int64).reshape(-1, 1)
+
     return data, labels
 
