@@ -43,9 +43,11 @@ model.compile(optimizer=optimiser,
 model.summary()
 
 # train model
-history = model.fit(X_train, y_train, validation_data=(X_validation, y_validation), batch_size=32, epochs=30)
+history = model.fit(X_train, y_train, validation_data=(X_validation, y_validation), batch_size=32, epochs=100)
 
 # plot accuracy/error for training and validation
 plot_history(history)
 
-
+# evaluate model on test set
+test_loss, test_acc = model.evaluate(X_test, y_test, verbose=2)
+print('\nTest accuracy:', test_acc)
