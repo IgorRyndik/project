@@ -43,11 +43,19 @@ model.compile(optimizer=optimiser,
 model.summary()
 
 # train model
-history = model.fit(X_train, y_train, validation_data=(X_validation, y_validation), batch_size=32, epochs=100)
+history = model.fit(X_train, y_train, validation_data=(X_validation, y_validation), batch_size=32, epochs=60)
+
+# Define the relative path to the models folder
+models_folder = os.path.join(script_dir, '..', 'models')
 
 # plot accuracy/error for training and validation
-plot_history(history)
+plot_history(history, os.path.join(models_folder, 'train_history_CNN_3l_basic_60e'))
 
 # evaluate model on test set
 test_loss, test_acc = model.evaluate(X_test, y_test, verbose=2)
 print('\nTest accuracy:', test_acc)
+
+
+
+# Save the model to the models folder
+model.save(os.path.join(models_folder, 'CNN_3l_basic_60e.h5'))

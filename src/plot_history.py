@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-def plot_history(history):
+def plot_history(history, file_path):
     """Plots accuracy/loss for training/validation set as a function of the epochs
 
         :param history: Training history of model
@@ -24,4 +24,4 @@ def plot_history(history):
     axs[1].legend(loc="upper right")
     axs[1].set_title("Error eval")
 
-    plt.savefig("my_plot.png")
+    plt.savefig(file_path)
