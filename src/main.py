@@ -7,7 +7,7 @@ from load_dataset_from_json import load_dataset_from_json
 from prepare_dataset import prepare_datasets
 from cnn_basic_model import build_model
 from plot_history import plot_history
- 
+#from cnn_lstm_model import build_model
 # Get the current directory of the Python script
 script_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -49,7 +49,7 @@ history = model.fit(X_train, y_train, validation_data=(X_validation, y_validatio
 models_folder = os.path.join(script_dir, '..', 'models')
 
 # plot accuracy/error for training and validation
-plot_history(history, os.path.join(models_folder, 'train_history_CNN_3l_basic_60e'))
+plot_history(history, os.path.join(models_folder, 'train_history_CNN_3l_enhanced_60e'))
 
 # evaluate model on test set
 test_loss, test_acc = model.evaluate(X_test, y_test, verbose=2)
@@ -58,4 +58,4 @@ print('\nTest accuracy:', test_acc)
 
 
 # Save the model to the models folder
-model.save(os.path.join(models_folder, 'CNN_3l_basic_60e.h5'))
+model.save(os.path.join(models_folder, 'CNN_3l_enhanced_60e.h5'))
