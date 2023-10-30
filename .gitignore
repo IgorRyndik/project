@@ -1,3 +1,9 @@
 data/
 __pycache__
 /data.json
+spectrograms/
+labels.npy
+.gitignore
+spectrograms.npy
+spectrograms2.npy
+labels2.npy
