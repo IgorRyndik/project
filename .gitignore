@@ -7,3 +7,6 @@ labels.npy
 spectrograms.npy
 spectrograms2.npy
 labels2.npy
+src/extract_spectrogram.py
+models/spectrogram_image_4l_60e.h5
+models/spectrogram_image_4l_20e.h5
