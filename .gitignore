@@ -1,4 +1,5 @@
 data/
+recordings/
 __pycache__
 /data.json
 spectrograms/
@@ -10,3 +11,9 @@ labels2.npy
 src/extract_spectrogram.py
 models/spectrogram_image_4l_60e.h5
 models/spectrogram_image_4l_20e.h5
+data_new_users.json
+data_sr_16k.json
+data_sr_22.05k.json
+data_sr_32k.json
+src/cnn_basic_model.py
+data_sr_48k.json
