@@ -42,7 +42,7 @@ def build_model_4l(input_shape):
     # flatten output and feed it into dense layer
     model.add(keras.layers.Flatten())
     model.add(keras.layers.Dense(128, activation='relu'))
-    model.add(keras.layers.Dropout(0.45))
+    model.add(keras.layers.Dropout(0.6))
 
     # output layer
     model.add(keras.layers.Dense(10, activation='softmax'))
@@ -113,6 +113,7 @@ training_time_seconds = end_time - start_time
 # Convert training time to hours, minutes, and seconds
 training_hours, remainder = divmod(training_time_seconds, 3600)
 training_minutes, training_seconds = divmod(remainder, 60)
+
 
 # Print the training time in a human-readable format
 print(f"Training time: {int(training_hours):02d} hours, {int(training_minutes):02d} minutes, {int(training_seconds):02d} seconds")
