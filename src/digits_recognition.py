@@ -42,7 +42,7 @@ def build_model_4l(input_shape):
     # flatten output and feed it into dense layer
     model.add(keras.layers.Flatten())
     model.add(keras.layers.Dense(128, activation='relu'))
-    model.add(keras.layers.Dropout(0.6))
+    model.add(keras.layers.Dropout(0.55))
 
     # output layer
     model.add(keras.layers.Dense(10, activation='softmax'))
@@ -80,11 +80,13 @@ script_dir = os.path.dirname(os.path.abspath(__file__))
 # Define the relative path to the models folder
 models_folder = os.path.join(script_dir, '..', 'models')
 
-old_data = "../data.json"
+old_data = "../data_sr_48k.json"
+new_data = "../data_new_users_sr_48k.json"
 
 # get train, validation, test splits
 print("Start loading data...")
 X_train, X_validation, X_test, y_train, y_validation, y_test = prepare_datasets(old_data, 0.15, 0.15)
+X_train_new, X_validation_new, X_test_new, y_train_new, y_validation_new, y_test_new = prepare_datasets(new_data, 0.15, 0.15)
 
 input_shape = (X_train.shape[1], X_train.shape[2], 1)
 
@@ -102,7 +104,9 @@ model.summary()
 start_time = time.time()
 
 # train model
-history = model.fit(X_train, y_train, validation_data=(X_validation, y_validation), batch_size=32, epochs=20)
+history = model.fit(np.vstack([X_train, X_train_new]), np.vstack([y_train, y_train_new]), 
+                    validation_data=(np.vstack([X_validation, X_validation_new]),
+                                      np.vstack([y_validation, y_validation_new])), batch_size=32, epochs=60)
 
 # Stop measuring time
 end_time = time.time()
@@ -122,14 +126,14 @@ print(f"Training time: {int(training_hours):02d} hours, {int(training_minutes):0
 models_folder = os.path.join(script_dir, '..', 'models')
 
 # plot accuracy/error for training and validation
-plot_history(history, os.path.join(models_folder, 'train_history_mfcc_digits_model_4l_60e_04d_2'))
+plot_history(history, os.path.join(models_folder, 'train_history_mfcc_digits_model_4l_60e_04d_3'))
 
 # evaluate model on test set
-test_loss, test_acc = model.evaluate(X_test, y_test, verbose=2)
+test_loss, test_acc = model.evaluate(np.vstack([X_test, X_test_new]), np.vstack([y_test, y_test_new]), verbose=2)
 print('\nTest accuracy:', test_acc)
 
 # Save the model to the models folder
-model.save(os.path.join(models_folder, 'mfcc_digits_model_4l_60e_04d_2.h5'))
+model.save(os.path.join(models_folder, 'mfcc_digits_model_4l_60e_04d_3.h5'))
 
-with open('training_history_mfcc_digits_model_4l_60e_04d_2.json', 'w') as json_file:
+with open('training_history_mfcc_digits_model_4l_60e_04d_3.json', 'w') as json_file:
     json.dump(history.history, json_file)

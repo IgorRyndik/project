@@ -1,6 +1,5 @@
 import os
 import numpy as np
-from PIL import Image
 from save_dataset_to_json import save_dataset_to_json
 import gc
 import cv2

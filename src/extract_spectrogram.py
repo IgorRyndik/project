@@ -27,7 +27,7 @@ def create_spectrograms_data(dataset_dir):
             audio, sr = librosa.load(wav_path, sr=None, mono=True)  # Load audio without resampling
 
             # Resample audio to achieve the same duration for all recordings
-            audio = resample_audio(audio)
+            #audio = resample_audio(audio)
 
             # Create the spectrogram
             spectrogram = librosa.amplitude_to_db(np.abs(librosa.stft(audio)), ref=np.max)
@@ -43,7 +43,7 @@ def create_spectrograms_data(dataset_dir):
             if not os.path.exists(save_dir_path):
                 os.mkdir(save_dir_path  )
 
-            save_file_path = os.path.join(save_dir_path, f"{wav_file}.png")
+            save_file_path = os.path.join(save_dir_path, f"{wav_file}_1.png")
            
             # Save the spectrogram as an image
             plt.savefig(save_file_path, dpi=100, bbox_inches='tight', pad_inches=0)

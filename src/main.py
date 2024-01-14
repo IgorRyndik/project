@@ -13,7 +13,7 @@ from create_spec_model_with_dataset import create_spectrogram_model_with_dataset
 #from cnn_lstm_model import build_model
 
 def create_basic_mfcc_model_with_dataset():
-    json_filename = "../data.json"
+    json_filename = "../data_sr_88.2k.json"
 
     # need to execute only on the first run
 
@@ -50,7 +50,7 @@ model.summary()
 start_time = time.time()
 
 # train model
-history = model.fit(X_train, y_train, validation_data=(X_validation, y_validation), batch_size=32, epochs=60)
+history = model.fit(X_train, y_train, validation_data=(X_validation, y_validation), batch_size=32, epochs=20)
 
 # Stop measuring time
 end_time = time.time()
@@ -69,16 +69,16 @@ print(f"Training time: {int(training_hours):02d} hours, {int(training_minutes):0
 models_folder = os.path.join(script_dir, '..', 'models')
 
 # plot accuracy/error for training and validation
-plot_history(history, os.path.join(models_folder, 'train_history_mfcc_model_4l_60e_04d_2'))
+plot_history(history, os.path.join(models_folder, 'train_history_mfcc_model_4l_60e_test'))
 
 # evaluate model on test set
 test_loss, test_acc = model.evaluate(X_test, y_test, verbose=2)
 print('\nTest accuracy:', test_acc)
 
 # Save the model to the models folder
-model.save(os.path.join(models_folder, 'mfcc_model_4l_60e_04d_2.h5'))
+model.save(os.path.join(models_folder, 'mfcc_model_4l_60e_04d_test.h5'))
 
-with open('training_history_mfcc_model_4l_60e_04d_2.json', 'w') as json_file:
+with open('training_history_mfcc_model_4l_60e_04d_test.json', 'w') as json_file:
     json.dump(history.history, json_file)
 
 

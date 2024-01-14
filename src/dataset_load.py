@@ -6,9 +6,9 @@ from feature_extraction import extract_mfcc
 from audio_preprocessing import resample_audio
 from save_dataset_to_json import save_dataset_to_json
 
-SAMPLE_RATE = 8000
-SEGMENT_LENGTH = 256
-HOP_LENGTH = 128
+SAMPLE_RATE = 88200
+SEGMENT_LENGTH = 2048
+HOP_LENGTH = 1024
 
 def load_dataset(dataset_dir):
     # Initialize empty lists to store data and labels
@@ -87,11 +87,11 @@ def load_new_users_dataset(dataset_dir, start_label_index:int):
 
 
 if __name__ == "__main__":
-    json_filename = "data_new_users.json"
+    json_filename = "data_sr_88.2k.json"
     # Get the current directory of the Python script
     script_dir = os.path.dirname(os.path.abspath(__file__))
 
     # Specify the relative path to the dataset directory
-    dataset_dir = os.path.join(script_dir, '..', 'recordings')
-    mfcc, labels = load_new_users_dataset(dataset_dir, 61)
+    dataset_dir = os.path.join(script_dir, '..', 'data')
+    mfcc, labels = load_dataset(dataset_dir)
     save_dataset_to_json(mfcc, labels, json_filename)

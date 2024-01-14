@@ -28,7 +28,7 @@ def build_model(input_shape):
     # flatten output and feed it into dense layer
     model.add(keras.layers.Flatten())
     model.add(keras.layers.Dense(128, activation='relu'))
-    model.add(keras.layers.Dropout(0.3))
+    model.add(keras.layers.Dropout(0.35))
 
     # output layer
     model.add(keras.layers.Dense(61, activation='softmax'))
@@ -68,7 +68,7 @@ def build_model_4l(input_shape):
     # flatten output and feed it into dense layer
     model.add(keras.layers.Flatten())
     model.add(keras.layers.Dense(128, activation='relu'))
-    model.add(keras.layers.Dropout(0.45))
+    model.add(keras.layers.Dropout(0.5))
 
     # output layer
     model.add(keras.layers.Dense(61, activation='softmax'))

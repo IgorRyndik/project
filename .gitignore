@@ -17,3 +17,5 @@ data_sr_22.05k.json
 data_sr_32k.json
 src/cnn_basic_model.py
 data_sr_48k.json
+data_new_users_sr_48k.json
+data_sr_88.2k.json
